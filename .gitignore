@@ -1,0 +1,32 @@
+# Maven
+backend/target/
+backend/.m2/
+.m2/
+
+# Node
+frontend/node_modules/
+frontend/dist/
+
+# Python
+ai-agent/.venv/
+ai-agent/__pycache__/
+ai-agent/**/__pycache__/
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# 上传的附件（业务数据，不入库）
+backend/uploads/
+
+# JVM 崩溃日志
+hs_err_pid*.log
+replay_pid*.log
+
+# 本地 Maven 配置（机器相关路径）
+backend/settings.xml

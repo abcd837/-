@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.smartprocurement.module.application.mapper.ProcurementApplicationMapper">
+
+    <!-- 采购申请列表联表查询：带出申请人、审批人、部门名称 -->
+    <select id="selectApplicationPage" resultType="com.smartprocurement.module.application.dto.ApplicationListRow">
+        SELECT
+            pa.id,
+            pa.application_no        AS applicationNo,
+            pa.title,
+            pa.applicant_id          AS applicantId,
+            COALESCE(u1.display_name, u1.username) AS applicantName,
+            pa.approver_id           AS approverId,
+            COALESCE(u2.display_name, u2.username) AS approverName,
+            pa.department_id         AS departmentId,
+            d.name                   AS departmentName,
+            pa.application_type      AS applicationType,
+            pa.purpose,
+            pa.total_amount          AS totalAmount,
+            pa.currency,
+            pa.required_date         AS requiredDate,
+            pa.status,
+            pa.approval_comment      AS approvalComment,
+            pa.submitted_at          AS submittedAt,
+            pa.created_at            AS createdAt
+        FROM procurement_application pa
+        LEFT JOIN sys_user u1 ON u1.id = pa.applicant_id AND u1.deleted_at IS NULL
+        LEFT JOIN sys_user u2 ON u2.id = pa.approver_id AND u2.deleted_at IS NULL
+        LEFT JOIN sys_department d ON d.id = pa.department_id AND d.deleted_at IS NULL
+        <where>
+            pa.deleted_at IS NULL
+            <if test="keyword != null and keyword != ''">
+                AND (pa.application_no ILIKE CONCAT('%', #{keyword}, '%')
+                     OR pa.title ILIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                AND pa.status = #{statusCode}
+            </if>
+            <!-- 按是否已选定中标供应商筛选 -->
+            <if test="supplierSelected != null and supplierSelected">
+                AND EXISTS (SELECT 1 FROM procurement_application_supplier pas
+                            WHERE pas.application_id = pa.id
+                              AND pas.is_selected = 1
+                              AND pas.deleted_at IS NULL)
+            </if>
+            <if test="supplierSelected != null and !supplierSelected">
+                AND NOT EXISTS (SELECT 1 FROM procurement_application_supplier pas
+                                WHERE pas.application_id = pa.id
+                                  AND pas.is_selected = 1
+                                  AND pas.deleted_at IS NULL)
+            </if>
+        </where>
+        ORDER BY pa.created_at DESC, pa.id DESC
+    </select>
+
+</mapper>
