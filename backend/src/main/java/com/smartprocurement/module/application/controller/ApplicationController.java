@@ -171,8 +171,8 @@ public class ApplicationController {
             @RequestParam(defaultValue = "20") int size,
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) ApplicationStatus status,
-            @RequestParam(required = false) Boolean supplierSelected) {
-        return ApiResponse.ok(applicationService.listApplications(page, size, keyword, status, supplierSelected));
+            @RequestParam(required = false) String supplierStage) {
+        return ApiResponse.ok(applicationService.listApplications(page, size, keyword, status, supplierStage));
     }
 
     @PostMapping("/{id}/submit")

@@ -1,35 +1,39 @@
 <template>
   <div>
     <div class="page-header">
-      <h2>采购申请</h2>
+      <div class="page-titles">
+        <h2>采购申请</h2>
+        <p class="page-desc">采购申请发起、提交与审批跟踪</p>
+      </div>
       <el-button v-if="canCreate" type="primary" @click="openCreate">
         发起申请
       </el-button>
     </div>
 
-    <div class="filter-bar">
-      <el-input
-        v-model="searchKeyword"
-        placeholder="搜索申请单号或标题"
-        clearable
-        style="width: 240px"
-        @keyup.enter="handleSearch"
-      />
-      <el-select
-        v-model="searchStatus"
-        placeholder="全部状态"
-        clearable
-        style="width: 160px"
-      >
-        <el-option v-for="(label, key) in statusMap" :key="key" :label="label" :value="key" />
-      </el-select>
-      <el-button type="primary" @click="handleSearch">
-        搜索
-      </el-button>
-      <el-button @click="handleReset">重置</el-button>
-    </div>
+    <div class="table-panel">
+      <div class="filter-bar">
+        <el-input
+          v-model="searchKeyword"
+          placeholder="搜索申请单号或标题"
+          clearable
+          style="width: 240px"
+          @keyup.enter="handleSearch"
+        />
+        <el-select
+          v-model="searchStatus"
+          placeholder="全部状态"
+          clearable
+          style="width: 160px"
+        >
+          <el-option v-for="(label, key) in statusMap" :key="key" :label="label" :value="key" />
+        </el-select>
+        <el-button type="primary" @click="handleSearch">
+          搜索
+        </el-button>
+        <el-button @click="handleReset">重置</el-button>
+      </div>
 
-    <el-table :data="rows" v-loading="loading" border>
+      <el-table :data="rows" v-loading="loading" border>
       <el-table-column prop="applicationNo" label="申请单号" width="200" />
       <el-table-column prop="title" label="标题" min-width="160" />
       <el-table-column label="申请部门" width="120">
@@ -56,60 +60,68 @@
           {{ formatDate(row.createdAt) }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="420" fixed="right">
+      <el-table-column label="操作" width="320" fixed="right">
         <template #default="{ row }">
-          <el-button
-            v-if="canCreate && row.status === 'DRAFT'"
-            size="small"
-            type="primary"
-            @click="handleSubmit(row)"
-          >
-            提交
-          </el-button>
-          <el-button
-            v-if="canReview && (row.status === 'SUBMITTED' || row.status === 'PENDING_APPROVAL')"
-            size="small"
-            type="warning"
-            @click="handleApprove(row)"
-          >
-            审批
-          </el-button>
-          <el-button
-            v-if="canCreate && (row.status === 'REJECTED' || row.status === 'WITHDRAWN')"
-            size="small"
-            type="warning"
-            @click="handleReapply(row)"
-          >
-            重新申请
-          </el-button>
-          <el-button
-            v-if="isAdmin && row.status !== 'APPROVED'"
-            size="small"
-            plain
-            @click="handleEdit(row)"
-          >
-            编辑
-          </el-button>
-          <el-button
-            v-if="isAdmin"
-            size="small"
-            plain
-            @click="handleView(row)"
-          >
-            查看
-          </el-button>
-          <el-button
-            v-if="isAdmin && row.status !== 'APPROVED'"
-            size="small"
-            type="danger"
-            plain
-            @click="handleDelete(row)"
-          >
-            删除
-          </el-button>
+          <div class="op-btns">
+            <el-button
+              v-if="canCreate && row.status === 'DRAFT'"
+              size="small"
+              type="primary"
+              link
+              @click="handleSubmit(row)"
+            >
+              提交
+            </el-button>
+            <el-button
+              v-if="canReview && (row.status === 'SUBMITTED' || row.status === 'PENDING_APPROVAL')"
+              size="small"
+              type="primary"
+              link
+              @click="handleApprove(row)"
+            >
+              审批
+            </el-button>
+            <el-button
+              v-if="canCreate && (row.status === 'REJECTED' || row.status === 'WITHDRAWN')"
+              size="small"
+              type="primary"
+              link
+              @click="handleReapply(row)"
+            >
+              重新申请
+            </el-button>
+            <el-button
+              v-if="isAdmin && row.status !== 'APPROVED'"
+              size="small"
+              type="primary"
+              link
+              @click="handleEdit(row)"
+            >
+              编辑
+            </el-button>
+            <el-button
+              v-if="isAdmin"
+              size="small"
+              type="primary"
+              link
+              @click="handleView(row)"
+            >
+              查看
+            </el-button>
+            <el-button
+              v-if="isAdmin && row.status !== 'APPROVED'"
+              size="small"
+              type="danger"
+              link
+              @click="handleDelete(row)"
+            >
+              删除
+            </el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
+    </div>
 
     <ApplicationCreateDialog v-model="createVisible" :edit-id="editId" :prefill="dialogPrefill" @success="loadData" />
     <ApprovalDialog v-model="approvalVisible" :target="approvalTarget" @success="loadData" />

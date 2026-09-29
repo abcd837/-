@@ -136,14 +136,14 @@ public class ApplicationService {
 
     @Transactional(readOnly = true)
     public PageResult<ApplicationResponse> listApplications(
-            int page, int size, String keyword, ApplicationStatus status, Boolean supplierSelected) {
+            int page, int size, String keyword, ApplicationStatus status, String supplierStage) {
         Page<ApplicationListRow> pageParam = new Page<>(page + 1L, size);
         String trimmedKeyword = (keyword != null && !keyword.isBlank()) ? keyword.trim() : null;
         String statusCode = status == null ? null : status.name();
 
         // 联表查询在 mapper XML 中完成，名称字段由数据库 JOIN 直接带出
         IPage<ApplicationListRow> result = applicationMapper.selectApplicationPage(pageParam, trimmedKeyword,
-                statusCode, supplierSelected);
+                statusCode, supplierStage);
         return PageResult.from(result, ApplicationResponse::fromRow);
     }
 

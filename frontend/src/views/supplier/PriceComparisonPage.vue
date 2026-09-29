@@ -154,27 +154,30 @@
               <span v-else class="muted">—</span>
             </template>
           </el-table-column>
-          <el-table-column label="操作" width="180" align="center" fixed="right">
+          <el-table-column label="操作" width="190" align="center" fixed="right">
             <template #default="{ row }">
-              <template v-if="row.selected">
-                <el-button type="info" size="small" disabled>
-                  <el-icon><Check /></el-icon> 已选定
-                </el-button>
+              <div class="op-btns">
+                <template v-if="row.selected">
+                  <el-button type="success" size="small" link disabled>
+                    <el-icon><Check /></el-icon> 已选定
+                  </el-button>
+                  <el-button
+                    type="warning"
+                    size="small"
+                    link
+                    :loading="selectingId === row.id"
+                    @click="unselectSupplier(row)"
+                  >取消选定</el-button>
+                </template>
                 <el-button
-                  type="warning"
+                  v-else
+                  type="primary"
                   size="small"
                   link
                   :loading="selectingId === row.id"
-                  @click="unselectSupplier(row)"
-                >取消选定</el-button>
-              </template>
-              <el-button
-                v-else
-                type="primary"
-                size="small"
-                :loading="selectingId === row.id"
-                @click="selectSupplier(row)"
-              >选定</el-button>
+                  @click="selectSupplier(row)"
+                >选定</el-button>
+              </div>
             </template>
           </el-table-column>
         </el-table>

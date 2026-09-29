@@ -1,11 +1,15 @@
 <template>
   <div>
     <div class="page-header">
-      <h2>部门管理</h2>
+      <div class="page-titles">
+        <h2>部门管理</h2>
+        <p class="page-desc">组织部门架构与层级维护</p>
+      </div>
       <el-button type="primary" @click="openCreate">新增部门</el-button>
     </div>
 
-    <el-table :data="departments" v-loading="loading" border>
+    <div class="table-panel">
+      <el-table :data="departments" v-loading="loading" border>
       <el-table-column prop="code" label="部门编码" width="160" />
       <el-table-column prop="name" label="部门名称" min-width="160" />
       <el-table-column label="上级部门" min-width="140">
@@ -14,15 +18,16 @@
         </template>
       </el-table-column>
       <el-table-column prop="sortOrder" label="排序" width="80" />
-      <el-table-column label="操作" width="160" fixed="right">
+      <el-table-column label="操作" width="140" fixed="right">
         <template #default="{ row }">
-          <el-button size="small" @click="openEdit(row)">编辑</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(row)">
-            删除
-          </el-button>
+          <div class="op-btns">
+            <el-button size="small" type="primary" link @click="openEdit(row)">编辑</el-button>
+            <el-button size="small" type="danger" link @click="handleDelete(row)">删除</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
+    </div>
 
     <el-dialog
       v-model="dialogVisible"

@@ -54,10 +54,12 @@
           <template #default="{ row }">{{ row.deliveryDays == null ? '—' : row.deliveryDays }}</template>
         </el-table-column>
         <el-table-column prop="remark" label="备注" min-width="110" show-overflow-tooltip />
-        <el-table-column v-if="canEdit && !selectedSupplier" label="操作" width="120" fixed="right">
+        <el-table-column v-if="canEdit && !selectedSupplier" label="操作" width="140" fixed="right">
           <template #default="{ row }">
-            <el-button size="small" type="primary" link @click="openEdit(row)">编辑</el-button>
-            <el-button size="small" type="danger" link @click="removeSupplier(row)">删除</el-button>
+            <div class="op-btns">
+              <el-button size="small" type="primary" link @click="openEdit(row)">编辑</el-button>
+              <el-button size="small" type="danger" link @click="removeSupplier(row)">删除</el-button>
+            </div>
           </template>
         </el-table-column>
         <template #empty>

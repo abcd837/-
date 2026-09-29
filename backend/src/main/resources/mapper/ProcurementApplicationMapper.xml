@@ -37,18 +37,26 @@
             <if test="statusCode != null and statusCode != ''">
                 AND pa.status = #{statusCode}
             </if>
-            <!-- 按是否已选定中标供应商筛选 -->
-            <if test="supplierSelected != null and supplierSelected">
+            <!-- 按供应商跟进阶段筛选：NOT_ENTERED 待录入 / PENDING_SELECTION 待选定 / SELECTED 已选定 -->
+            <if test="supplierStage == 'NOT_ENTERED'">
+                AND NOT EXISTS (SELECT 1 FROM procurement_application_supplier pas
+                                WHERE pas.application_id = pa.id
+                                  AND pas.deleted_at IS NULL)
+            </if>
+            <if test="supplierStage == 'PENDING_SELECTION'">
                 AND EXISTS (SELECT 1 FROM procurement_application_supplier pas
                             WHERE pas.application_id = pa.id
-                              AND pas.is_selected = 1
                               AND pas.deleted_at IS NULL)
-            </if>
-            <if test="supplierSelected != null and !supplierSelected">
                 AND NOT EXISTS (SELECT 1 FROM procurement_application_supplier pas
                                 WHERE pas.application_id = pa.id
                                   AND pas.is_selected = 1
                                   AND pas.deleted_at IS NULL)
+            </if>
+            <if test="supplierStage == 'SELECTED'">
+                AND EXISTS (SELECT 1 FROM procurement_application_supplier pas
+                            WHERE pas.application_id = pa.id
+                              AND pas.is_selected = 1
+                              AND pas.deleted_at IS NULL)
             </if>
         </where>
         ORDER BY pa.created_at DESC, pa.id DESC

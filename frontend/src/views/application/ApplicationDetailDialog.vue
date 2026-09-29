@@ -96,20 +96,22 @@
         <el-table-column label="上传时间" width="168">
           <template #default="{ row }">{{ formatDateTime(row.createdAt) }}</template>
         </el-table-column>
-        <el-table-column label="操作" width="130">
+        <el-table-column label="操作" width="150">
           <template #default="{ row }">
-            <el-button
-              v-if="isPreviewable(row.contentType)"
-              size="small"
-              type="primary"
-              link
-              @click="handlePreview(row)"
-            >
-              预览
-            </el-button>
-            <el-button size="small" type="primary" link @click="handleDownload(row)">
-              下载
-            </el-button>
+            <div class="op-btns">
+              <el-button
+                v-if="isPreviewable(row.contentType)"
+                size="small"
+                type="primary"
+                link
+                @click="handlePreview(row)"
+              >
+                预览
+              </el-button>
+              <el-button size="small" type="primary" link @click="handleDownload(row)">
+                下载
+              </el-button>
+            </div>
           </template>
         </el-table-column>
         <template #empty>

@@ -1,0 +1,155 @@
+/* 全局绿色主题：覆盖 Element Plus 主色及衍生色阶，所有组件统一换肤 */
+:root {
+  --el-color-primary: #437d24;
+  --el-color-primary-light-3: #79a358;
+  --el-color-primary-light-5: #a1bd8b;
+  --el-color-primary-light-7: #c8d8bb;
+  --el-color-primary-light-8: #dbe7d3;
+  --el-color-primary-light-9: #edf3e8;
+  --el-color-primary-dark-2: #35631c;
+}
+
+body {
+  background: #f2f6ee;
+}
+
+/* 列表页通用白色圆角面板：筛选区与表格共同的外层容器 */
+.table-panel {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 2px 10px rgba(47, 80, 22, 0.05);
+}
+
+.table-panel .filter-bar,
+.table-panel .panel-toolbar {
+  margin-bottom: 16px;
+}
+
+/* 各模块统一页头：深绿大标题 + 灰色模块描述 */
+.page-header .page-titles {
+  min-width: 0;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #2f5016;
+}
+
+.page-header .page-desc {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #909399;
+}
+
+/* 表格操作列统一按钮组：文字按钮、水平对齐、等距竖线分隔 */
+.op-btns {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.op-btns .el-button {
+  margin-left: 0;
+}
+
+/* tooltip 包裹按钮的 span 同样参与 flex 对齐 */
+.op-btns > span {
+  display: inline-flex;
+  align-items: center;
+}
+
+/* 除第一个按钮外，左侧竖线分隔 */
+.op-btns > .el-button + .el-button,
+.op-btns > span + .el-button,
+.op-btns > .el-button + span,
+.op-btns > span + span {
+  border-left: 1px solid #d4d9d0;
+  padding-left: 14px;
+  margin-left: 14px;
+}
+
+/* 删除类按钮文字加深为深红 */
+.op-btns .el-button.is-link.el-button--danger {
+  --el-button-text-color: #d03026;
+  --el-button-hover-text-color: #a8241c;
+}
+
+/* ── 全局卡片式表格：浅绿表头 + 去竖线外边框 + 行间细线 + 圆角 ── */
+.el-table {
+  --el-table-border-color: #e2e8de;
+  --el-table-header-bg-color: #e6efdd;
+  --el-table-header-text-color: #2f5016;
+  --el-table-row-hover-bg-color: #e9f2e0;
+  border-radius: 10px;
+}
+
+/* 表头：浅绿底、深绿粗体 */
+.el-table th.el-table__cell {
+  background-color: #e6efdd !important;
+  color: #2f5016;
+  font-weight: 700;
+}
+
+/* 去掉所有单元格右边框（竖线） */
+.el-table .el-table__cell {
+  border-right: none !important;
+}
+
+/* 去掉表格外边框及首尾横线占位 */
+.el-table--border,
+.el-table--group {
+  border: none !important;
+}
+
+.el-table::before,
+.el-table--border::after,
+.el-table .el-table__inner-wrapper::before,
+.el-table .el-table__inner-wrapper::after {
+  display: none !important;
+}
+
+/* 数据行：极浅灰绿底 + 更宽松的行高 */
+.el-table td.el-table__cell {
+  background-color: #f5f7f3;
+  border-bottom: 1px solid #e6ebe4;
+  padding-top: 9px;
+  padding-bottom: 9px;
+}
+
+.el-table--striped .el-table__body tr.el-table__row--striped td.el-table__cell {
+  background-color: #eef2ec;
+}
+
+/* 悬停行加深一点 */
+.el-table__body tr:hover > td.el-table__cell {
+  background-color: #e7f0dd !important;
+}
+
+/* 固定列背景跟随数据行，避免去边框后出现白条 */
+.el-table .el-table-fixed-column--left,
+.el-table .el-table-fixed-column--right {
+  background-color: #f5f7f3;
+}
+
+.el-table__body tr:hover .el-table-fixed-column--left,
+.el-table__body tr:hover .el-table-fixed-column--right {
+  background-color: #e7f0dd;
+}
+
+/* 供应商详情弹窗：已选定行整行绿色高亮（与组件内样式呼应） */
+.el-table__body tr.selected-row > td.el-table__cell {
+  background-color: #f0f9eb !important;
+}
+
+.el-table__body tr.selected-row:hover > td.el-table__cell {
+  background-color: #e1f3d8 !important;
+}
+
+/* 分页器选中色跟随主色 */
+.el-pagination.is-background .el-pager li.is-active {
+  background-color: var(--el-color-primary);
+}

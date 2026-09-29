@@ -19,5 +19,5 @@ public interface ProcurementApplicationMapper extends BaseMapper<ProcurementAppl
             Page<ApplicationListRow> page,
             @Param("keyword") String keyword,
             @Param("statusCode") String statusCode,
-            @Param("supplierSelected") Boolean supplierSelected);
+            @Param("supplierStage") String supplierStage);
 }

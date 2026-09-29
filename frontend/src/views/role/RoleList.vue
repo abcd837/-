@@ -1,11 +1,15 @@
 <template>
   <div>
     <div class="page-header">
-      <h2>角色管理</h2>
+      <div class="page-titles">
+        <h2>角色管理</h2>
+        <p class="page-desc">系统角色定义与功能权限配置</p>
+      </div>
       <el-button type="primary" @click="openCreate">新增角色</el-button>
     </div>
 
-    <el-table :data="roles" v-loading="loading" border>
+    <div class="table-panel">
+      <el-table :data="roles" v-loading="loading" border>
       <el-table-column prop="code" label="角色编码" width="180" />
       <el-table-column prop="name" label="角色名称" width="160" />
       <el-table-column prop="description" label="描述" min-width="220" />
@@ -16,15 +20,16 @@
           </el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="160" fixed="right">
+      <el-table-column label="操作" width="140" fixed="right">
         <template #default="{ row }">
-          <el-button size="small" @click="openEdit(row)">编辑</el-button>
-          <el-button size="small" type="danger" @click="handleDelete(row)">
-            删除
-          </el-button>
+          <div class="op-btns">
+            <el-button size="small" type="primary" link @click="openEdit(row)">编辑</el-button>
+            <el-button size="small" type="danger" link @click="handleDelete(row)">删除</el-button>
+          </div>
         </template>
       </el-table-column>
     </el-table>
+    </div>
 
     <el-dialog
       v-model="dialogVisible"

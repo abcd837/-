@@ -86,7 +86,7 @@ export function updateApplication(id: number, data: ApplicationCreateRequest) {
 export function listApplications(
   page = 0,
   size = 20,
-  params?: { keyword?: string; status?: string; supplierSelected?: boolean }
+  params?: { keyword?: string; status?: string; supplierStage?: string }
 ) {
   return http.get<PageResult<ApplicationResponse>, PageResult<ApplicationResponse>>('/applications', {
     params: { page, size, ...params }
